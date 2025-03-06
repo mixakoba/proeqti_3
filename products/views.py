@@ -4,15 +4,23 @@ from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.mixins import ListModelMixin,CreateModelMixin,RetrieveModelMixin,UpdateModelMixin,DestroyModelMixin
 from rest_framework.views import APIView
+from rest_framework.filters import SearchFilter
 from rest_framework.viewsets import GenericViewSet
 from rest_framework.generics import GenericAPIView,ListAPIView,ListCreateAPIView
 from rest_framework.permissions import IsAuthenticated
+<<<<<<< HEAD
 from rest_framework.exceptions import PermissionDenied
 from rest_framework.filters import SearchFilter
 from django_filters.rest_framework import DjangoFilterBackend
 from products.models import Product,Review,Cart,ProductTag,FavoriteProduct,ProductImage,CartItem
 from products.filters import ProductFilter,ReviewFilter
 from products.serializers import ProductSerializer,ReviewSerializer,CartSerializer,ProductTagSerializer,ProductImageSerializer,FavoriteProductSerializer,CartItemSerializer
+=======
+from django_filters.rest_framework import DjangoFilterBackend
+from products.pagination import ProductPagination
+from products.models import Product,Review,Cart,ProductTag,FavoriteProduct,ProductImage
+from products.serializers import ProductSerializer,ReviewSerializer,CartSerializer,ProductTagSerializer,ProductImageSerializer,FavoriteProductSerializer
+>>>>>>> 7c517b880f18da7c84a2037757f647ac331ab7a1
 from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404
 
@@ -21,14 +29,24 @@ class ProductViewSet(ListModelMixin,CreateModelMixin,DestroyModelMixin,RetrieveM
     queryset=Product.objects.all()
     serializer_class=ProductSerializer
     permission_classes=[IsAuthenticated]
+<<<<<<< HEAD
     filterset_class=ProductFilter
     filter_backends=[DjangoFilterBackend,SearchFilter]
     search_fields=['name','desciption']
+=======
+    filter_backends=[DjangoFilterBackend,SearchFilter]
+    pagination_class=ProductPagination
+    filterset_fields=['price','categories']
+    search_fields=['name','description']
+    
+   
+>>>>>>> 7c517b880f18da7c84a2037757f647ac331ab7a1
     
 class ReviewViewSet(ModelViewSet):
     queryset=Review.objects.all()
     serializer_class=ReviewSerializer
     permission_classes=[IsAuthenticated]
+<<<<<<< HEAD
     filterset_class=ReviewFilter
     filter_backends=[DjangoFilterBackend]
     
@@ -45,6 +63,14 @@ class ReviewViewSet(ModelViewSet):
         if instance.user!=self.request.user:
             raise PermissionDenied("You cant change this review")
         serializer.save()
+=======
+    filter_backends=[DjangoFilterBackend]
+    filterset_fields=['rating']
+    
+    def get_queryset(self):
+        queryset=self.queryset.filter(user=self.request.user)
+        return queryset
+>>>>>>> 7c517b880f18da7c84a2037757f647ac331ab7a1
 
 class CartViewSet(ListModelMixin,CreateModelMixin,GenericViewSet):
     queryset=Cart.objects.all()

@@ -42,7 +42,11 @@ INSTALLED_APPS = [
     "users",
     "products",
     "categories",
+<<<<<<< HEAD
     'django_filters',
+=======
+    "django_filters",
+>>>>>>> 7c517b880f18da7c84a2037757f647ac331ab7a1
     'rest_framework'
 ]
 
